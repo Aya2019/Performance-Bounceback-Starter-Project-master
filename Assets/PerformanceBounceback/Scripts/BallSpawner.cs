@@ -21,13 +21,13 @@ public class BallSpawner : MonoBehaviour {
 
     void Start()
     {
-        //Create Bullet Pool
+        //Create Ball Pool
         pooledBalls = new List<GameObject>();
         for (int i = 0; i < ballsAmount; i++)
         {
             GameObject obj = Instantiate(pooledBall);
-            obj.SetActive(false);
-            pooledBalls.Add(obj);
+           obj.SetActive(false);
+            pooledBalls.Add(obj);//add new ball
         }
     }
 
@@ -47,21 +47,9 @@ public GameObject GetPooledBall()
         ballsAmount++;
         ballPoolNum = ballsAmount - 1;
     }
-        Debug.Log("GetPooledBall returned ball number: " + ballPoolNum);
         return pooledBalls[ballPoolNum];
 }
-   	
-	// Update is called once per frame
-	void Update () {
-        cooldown -= Time.deltaTime;
-        if(cooldown <= 0)
-        {
-            cooldown = cooldownLength;
-            SpawnBall();
-        }		
-	}
-
-    void SpawnBall()
+    private void SpawnBall()
     {
         GameObject selectedBall = BallSpawner.current.GetPooledBall();
         selectedBall.transform.position = transform.position;
@@ -70,4 +58,17 @@ public GameObject GetPooledBall()
         selectedRigidbody.angularVelocity = Vector3.zero;
         selectedBall.SetActive(true);
     }
+
+
+    // Update is called once per frame
+    void Update () {
+        cooldown -= Time.deltaTime;
+        if(cooldown <= 0)
+        {
+            cooldown = cooldownLength;
+            SpawnBall();
+        }		
+	}
+
+   
 }
